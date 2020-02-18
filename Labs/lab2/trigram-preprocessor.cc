@@ -10,7 +10,7 @@ tuple<int, string> getTrigrams(const string &word)
 {   
     vector<string> trigramsVector;
     auto [trigramsSize, trigrams] = tuple<int, string> {0, ""};
-    if(word.length() > 3){
+    if(word.length() >= 3){
         for (unsigned int startOfTrigram = 0; startOfTrigram + 3 <= word.length(); ++startOfTrigram){
             string s;
             s.append(word, startOfTrigram, 3);
@@ -37,10 +37,10 @@ void preprocess(ifstream &input, ofstream &output)
 
 int main()
 {
-    string PATH = "/Users/sofiflink/Skola/Pågående Kurser/C++-programmering EDAF50/Labs/lab2/dict/words";
+    string PATH = "/Users/sofiflink/Skola/Pågående Kurser/C++-programmering EDAF50/cpp-edaf50/Labs/lab2/dict/words";
     ifstream input(PATH);
     if (!input) cerr << "File 'words' is not found in folder" <<
-        " '/Users/sofiflink/Skola/Pågående Kurser/C++-programmering EDAF50/Labs/lab2/dict/'." << endl;
+        " '/Users/sofiflink/Skola/Pågående Kurser/C++-programmering EDAF50/cpp-edaf50/Labs/lab2/dict/'." << endl;
     else{
         ofstream output("words.txt");
         preprocess(input, output);
