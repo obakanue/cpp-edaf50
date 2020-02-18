@@ -29,7 +29,7 @@ test:
 
 # Targets rely on implicit rules for compiling and linking
 trigram-preprocessor: trigram-preprocessor.o
-spell: spell.o dictionary.o
+spell: spell.o dictionary.o word.o
 
 # Phony targets
 .PHONY: all test clean distclean
