@@ -21,7 +21,7 @@ CXXFLAGS += -stdlib=libc++
 LDFLAGS +=  -stdlib=libc++
 
 # Targets
-PROGS =  trigram-preprocessor
+PROGS =  trigram-preprocessor spell
 
 all: $(PROGS)
 
@@ -29,6 +29,7 @@ test:
 
 # Targets rely on implicit rules for compiling and linking
 trigram-preprocessor: trigram-preprocessor.o
+spell: spell.o dictionary.o
 
 # Phony targets
 .PHONY: all test clean distclean
