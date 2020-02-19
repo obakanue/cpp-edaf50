@@ -14,18 +14,20 @@ string Word::get_word() const {
 
 unsigned int Word::get_matches(const vector<string>& t) const {
     auto matches = 0;
-    auto trigramsSize = trigrams.size();
+    auto trigramsSize = this->trigrams.size();
     auto tSize = t.size();
-    auto length = 0;
-    if(trigramsSize <= tSize){
-        length = trigramsSize;
-    } else {
-        length = tSize;
-    }
-    for(auto i = 0; i < length; i++){
-        if (this->trigrams.at(i) == t.at(i)){
+    unsigned int i = 0;
+    unsigned int j = 0;
+    while(i < trigramsSize && j < tSize){
+        if (this->trigrams.at(i) == t.at(j)){
             ++matches;
+            ++i;
+            ++j;
+        } else if (this->trigrams.at(i) > t.at(j)){
+            ++j;
+        } else {
+            ++i;
         }
     }
-	return matches;
+   	return matches;
 }

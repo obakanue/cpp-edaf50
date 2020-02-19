@@ -104,8 +104,6 @@ int levenshtein_distance(const string &word, const string &suggestion){
     for (unsigned int i = 1; i <= word.length(); ++i){
         auto substitutionCost = 0;
         for (unsigned int j = 1; j <= suggestion.length(); ++j){
-
-            cout << "i: " << i << " j: " << j << " " << word << endl;
             if(word.at(i - 1) == suggestion.at(j - 1)){
                 substitutionCost = 0;
             } else {
