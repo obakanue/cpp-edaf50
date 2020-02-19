@@ -22,7 +22,7 @@ unsigned int Word::get_matches(const vector<string>& t) const {
     } else {
         length = tSize;
     }
-    for(int i = 0; i < length; i++){
+    for(auto i = 0; i < length; i++){
         if (this->trigrams.at(i) == t.at(i)){
             ++matches;
         }

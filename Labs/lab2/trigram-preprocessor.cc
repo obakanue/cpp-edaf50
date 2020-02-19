@@ -9,21 +9,20 @@ using namespace std;
 tuple<int, string> getTrigrams(const string &word)
 {   
     vector<string> trigramsVector;
-    auto [trigramsSize, trigrams] = tuple<int, string> {0, ""};
+    string trigrams = "";
     if(word.length() >= 3){
-        for (unsigned int startOfTrigram = 0; startOfTrigram + 3 <= word.length(); 
-                ++startOfTrigram){
+        for (unsigned int i = 0; i + 3 <= word.length(); i++){
             string s;
-            s.append(word, startOfTrigram, 3);
+            s.append(word, i, 3);
             trigramsVector.push_back(s);
         }
+
         sort(trigramsVector.begin(), trigramsVector.end());
         for (long unsigned int i = 0; i < trigramsVector.size(); ++i){
             trigrams.append(trigramsVector.at(i) + " ");
-            trigramsSize += 1;
-        }
+            }
     }
-    return {trigramsSize, trigrams};
+    return {trigramsVector.size(), trigrams};
 }
 
 void preprocess(ifstream &input, ofstream &output)
@@ -32,7 +31,7 @@ void preprocess(ifstream &input, ofstream &output)
     while (getline(input, word)){
         transform(word.begin(), word.end(), word.begin(), ::tolower);
         auto [trigramsSize, trigrams] = getTrigrams(word);
-        output << word << " " << trigrams.size() << " " << trigrams << endl;
+        output << word << " " << trigramsSize << " " << trigrams << endl;
     }
 }
 

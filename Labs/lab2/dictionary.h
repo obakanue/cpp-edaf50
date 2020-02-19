@@ -17,6 +17,8 @@ private:
     unordered_set<string> wordSet;
     vector<Word> words[MAX_LENGTH];
     void add_trigram_suggestions(vector<string>&, const string) const;
+    void rank_suggestions(vector<string> &, const string ) const;
+    void trim_suggestions(vector<string> &) const;
 };
 
 #endif
