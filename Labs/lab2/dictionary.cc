@@ -40,6 +40,14 @@ bool Dictionary::contains(const string &word) const {
 	return this->wordSet.find(word) != this->wordSet.end();
 }
 
+vector<string> Dictionary::get_suggestions(const string &word) const {
+	vector<string> suggestions;
+    add_trigram_suggestions(suggestions, word);
+    rank_suggestions(suggestions, word);
+    trim_suggestions(suggestions);
+	return suggestions;
+}
+
 void Dictionary::add_trigram_suggestions(vector<string> &suggestions, const string word) const{
     auto length = 0;
     length = word.length();
@@ -53,7 +61,7 @@ void Dictionary::add_trigram_suggestions(vector<string> &suggestions, const stri
         this->words[length - 1].end());
     }
 
-    if (length + 1 <= int(Dictionary::MAX_LENGTH)){
+    if (length + 1 <= static_cast<int>(Dictionary::MAX_LENGTH)){
         words.insert(words.end(), this->words[length + 1].begin(), 
         this->words[length + 1].end());
     }    
@@ -75,21 +83,38 @@ void Dictionary::add_trigram_suggestions(vector<string> &suggestions, const stri
     }
 }
 
-int distance(const string &word, const string &suggestion){
+int levenshtein_distance(const string &word, const string &suggestion){
+    // for all i and j, d[i,j] will hold the Levenshtein distance between
+    // the first i characters of s and the first j characters of t
+    // set each element in d to zero
     int d[Dictionary::MAX_LENGTH + 1][Dictionary::MAX_LENGTH + 1];
-    for (unsigned int i = 0; i < word.length(); ++i){
+
+    // source prefixes can be transformed into empty string by
+    // dropping all characters
+    for (unsigned int i = 0; i <= word.length(); ++i){
         d[i][0] = i;
-        for (unsigned int j = 0; j < suggestion.length(); ++j){
-            d[0][j] = j;
-            int qDist = 0;
-            if(word.at(i) == suggestion.at(j)){
-                qDist = d[i][j];
+    }
+
+    // target prefixes can be reached from empty source prefix
+    // by inserting every character
+    for (unsigned int j = 0; j <= suggestion.length(); ++j){
+        d[0][j] = j;
+    }
+    
+    for (unsigned int i = 1; i <= word.length(); ++i){
+        auto substitutionCost = 0;
+        for (unsigned int j = 1; j <= suggestion.length(); ++j){
+
+            cout << "i: " << i << " j: " << j << " " << word << endl;
+            if(word.at(i - 1) == suggestion.at(j - 1)){
+                substitutionCost = 0;
             } else {
-                qDist = (d[i][j] + 1);
+                substitutionCost = 1;
             }
-            int oDist = min((d[i][j+1] + 1), (d[i+1][j] + 1));
-            d[i+1][j+1] = min(oDist, qDist);
+            auto temp = min((d[i-1][j] + 1), (d[i][j-1] + 1));
+            d[i][j] = min(temp, (d[i-1][j-1]+substitutionCost));
         }
+        
     }
     return d[word.length()][suggestion.length()];
 }
@@ -101,7 +126,7 @@ bool compare_distance(pair<int, string> &pair1, pair<int, string> &pair2){
 void Dictionary::rank_suggestions(vector<string> &suggestions, const string word) const{
     vector< pair<int, string> > pairs;
     for (string suggestion : suggestions){
-        int dist = distance(word, suggestion);
+        int dist = levenshtein_distance(word, suggestion);
         pairs.push_back(make_pair(dist, suggestion));
     }
 
@@ -116,17 +141,7 @@ void Dictionary::rank_suggestions(vector<string> &suggestions, const string word
 }
 
 void Dictionary::trim_suggestions(vector<string> &suggestions) const{
-    if(suggestions.size() > 3){
-        suggestions.resize(3);
+    if(suggestions.size() > 5){
+        suggestions.resize(5);
     }
 }
-
-vector<string> Dictionary::get_suggestions(const string &word) const {
-	vector<string> suggestions;
-    add_trigram_suggestions(suggestions, word);
-    rank_suggestions(suggestions, word);
-    trim_suggestions(suggestions);
-	return suggestions;
-}
-
-
