@@ -6,7 +6,7 @@ using namespace std;
 
 class TagRemover {
 public:
-    TagRemover(istream &file);
+    TagRemover(istream &file, bool test);
     void remove_tags();
     void remove_tags(ofstream &output);             // Couldn't find a way to do optional arguments (default value) for ofstream.
     void process_special_chars();
@@ -14,7 +14,7 @@ public:
     void print(ostream &cout, ofstream &output);
 private:
     string html;
-    void process_char();
+    void process_char(int start, int end);
 };
 
 #endif

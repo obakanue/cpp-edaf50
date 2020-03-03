@@ -5,26 +5,29 @@ using namespace std;
 
 string input_to_string(ifstream &input){
     string str="";
-    string word;
-    while (getline(input, word)){
-        str.append(word);
+    string line;
+    string file_name;
+    input >> file_name;
+    ifstream file(file_name);
+    while (getline(file, line)){
+        str.append(line);
     }
     return str;
 }
 
 int main() {
-    TagRemover tag_remover(cin);
-    ofstream output_tags_processed("tags_processed.txt");
-    ofstream output_html_processed("html_processed.txt");
+    TagRemover tag_remover(cin, true);
+    ofstream output_tags_processed("tags_processed.html");
+    ofstream output_html_processed("html_processed.html");
     
     cout << "####Test removing tags.####" << endl;
     tag_remover.remove_tags(output_tags_processed);
 
-    string PATH = "/Users/sofiflink/Skola/Pågående Kurser/C++-programmering EDAF50/cpp-edaf50/Labs/lab3/tags_processed.html";
+    string PATH = "tags_processed.html";
     ifstream input_tags_processed(PATH);
     if (!input_tags_processed){ 
         cerr << "File 'tags_processed.html' is not found in folder" <<
-        " '/Users/sofiflink/Skola/Pågående Kurser/C++-programmering EDAF50/cpp-edaf50/Labs/lab3/'." << endl;
+            " '/cpp-edaf50/Labs/lab3/'." << endl;
         return 0;
     }
     string tags_processed = input_to_string(input_tags_processed);
@@ -39,9 +42,9 @@ int main() {
     string tags_test = input_to_string(input_tags_test);
 
     if(tags_processed == tags_test){
-        cout << "Tags properly removed." << endl;
+        cout << "####Tags properly removed.####" << endl;
     } else{
-        cout << "Tags not properly removed." << endl;
+        cout << "####Tags not properly removed.####" << endl;
     }
     
     cout << "####Test processing special characters.####" << endl;
@@ -66,11 +69,11 @@ int main() {
     string processed_test = input_to_string(input_test);
 
     if(html_processed == processed_test){
-        cout << "Special characters properly processed." << endl;
-        cout << "Test cleared." << endl;
+        cout << "####Special characters properly processed.###" << endl;
+        cout << "####Test cleared.####" << endl;
     } else{
-        cout << "Special characters not properly processed." << endl;
-        cout << "Test not cleared." << endl;
+        cout << "####Special characters not properly processed.####" << endl;
+        cout << "####Test not cleared.####" << endl;
     }
 
 

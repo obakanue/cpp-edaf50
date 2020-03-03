@@ -29,8 +29,8 @@ test: test_tag_remover
 	./test_tag_remover
 
 # Targets rely on implicit rules for compiling and linking
-test_tag_remover: test_tag_remover.o TagRemover.o
-tag_main: tag_main.o TagRemover.o
+test_tag_remover: TagRemover.o test_tag_remover.o
+tag_main: TagRemover.o tag_main.o
 	
 # Phony targets
 .PHONY: all test clean distclean
