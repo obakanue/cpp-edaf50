@@ -16,7 +16,7 @@ string input_to_string(ifstream &input){
 }
 
 int main() {
-    TagRemover tag_remover(cin, true);
+    TagRemover tag_remover(cin);
     ofstream output_tags_processed("tags_processed.html");
     ofstream output_html_processed("html_processed.html");
     

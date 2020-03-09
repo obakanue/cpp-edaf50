@@ -6,7 +6,7 @@ using namespace std;
 
 class TagRemover {
 public:
-    TagRemover(istream &file, bool test);
+    TagRemover(istream &file);
     void remove_tags();
     void remove_tags(ofstream &output);             // Couldn't find a way to do optional arguments (default value) for ofstream.
     void process_special_chars();

@@ -21,17 +21,16 @@ CXXFLAGS += -stdlib=libc++
 LDFLAGS +=  -stdlib=libc++
 
 # Targets
-PROGS = test_tag_remover tag_main
+PROGS =  date_test
 
 all: $(PROGS)
 
-test: test_tag_remover
-	./test_tag_remover
+test: date_test
+		./date_test
 
 # Targets rely on implicit rules for compiling and linking
-test_tag_remover: TagRemover.o test_tag_remover.o
-tag_main: TagRemover.o tag_main.o
-	
+date_test: date_test.o date.o
+
 # Phony targets
 .PHONY: all test clean distclean
 

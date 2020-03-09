@@ -5,17 +5,13 @@
 using namespace std;
 using std::string;
 
-TagRemover::TagRemover(istream &input, bool test = false){
+TagRemover::TagRemover(istream &input){
     string line;
     string file_name;
     input >> file_name;
     ifstream file(file_name);
     while(getline(file, line)){
         this->html += line + "\n";
-    }
-    if(!test){
-        remove_tags();
-        process_special_chars();
     }
 }
 
@@ -47,21 +43,20 @@ void TagRemover::process_special_chars(){
 
 void TagRemover::process_char(int start, int end){
     string substr = this->html.substr(start, end + 1 - start);
-    cout << "substring: ";
-    cout << substr << endl;
     if(substr == "&nbsp;"){
        this->html.replace(start, end + 1 - start, " ");
     } else if (substr == "&lt;"){
        this->html.replace(start, end + 1 - start, "<");
     } else if (substr == "&gt;"){
         this->html.replace(start, end + 1 - start, ">");
-        cout << ">";
     } else if (substr == "&amp;"){
         this->html.replace(start, end + 1 - start, "&");
     }
 }
 
 void TagRemover::print(ostream &cout){
+    remove_tags();
+    process_special_chars();
     cout << this-> html;
 }
 

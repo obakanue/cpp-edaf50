@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(){
-    TagRemover tag_remover(cin, false);
+    TagRemover tag_remover(cin);
     tag_remover.print(cout);
     
     return 0;
